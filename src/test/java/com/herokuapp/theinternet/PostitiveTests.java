@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class PostitiveTests {
@@ -24,7 +25,7 @@ public class PostitiveTests {
 		sleep(3000);
 		
 		//2. open the test page
-//		String url= "http://www.locateitsolutions.com.au/wp-login.php";
+
 		String url = "https://the-internet.herokuapp.com/login";
 		driver.get(url);
 		System.out.println("Page Opened Successfully");
@@ -35,8 +36,7 @@ public class PostitiveTests {
 		WebElement username = driver.findElement(By.id("username"));
 		username.sendKeys("tomsmith");
 		
-//		WebElement username = driver.findElement(By.xpath("/html//input[@id='user_login']"));
-//		username.sendKeys("developer");
+
 //		
 		sleep(1000);
 		
@@ -45,8 +45,7 @@ public class PostitiveTests {
 		WebElement password = driver.findElement(By.name("password"));
 		password.sendKeys("SuperSecretPassword!"); 
 		
-//		WebElement password = driver.findElement(By.xpath("/html//input[@id='user_pass']"));
-//		password.sendKeys("Developer00");
+
 		
 		sleep(1000);
 		
@@ -55,13 +54,7 @@ public class PostitiveTests {
 		WebElement logInBtn = driver.findElement(By.tagName("button"));
 		logInBtn.click();
 		
-//		WebElement rem = driver.findElement(By.xpath("/html//input[@id='rememberme']"));
-//		rem.click();
-//		sleep(1000);
-//		
-//		
-//		WebElement logInBtn = driver.findElement(By.xpath("/html//input[@id='wp-submit']"));
-//		logInBtn.click();
+
 		
 		sleep(2000);
 		
@@ -70,17 +63,28 @@ public class PostitiveTests {
 		
 //		6. verifications:
 //			a. new url
+		
+		String expectedUrl = "https://the-internet.herokuapp.com/secure";
+		String actualUrl = driver.getCurrentUrl();
+		Assert.assertEquals(actualUrl, expectedUrl, "Actual url did not match the current url.");
+		
+		
 //			b. Logout Button is visible
-		WebElement successMessage = driver.findElement(By.cssSelector("#flash"));
-		successMessage.click();
-		sleep(1000);
+	
+//		successMessage.click();
+//		sleep(1000);
+		
 		
 		
 		WebElement logOutBtn = driver.findElement(By.xpath("//a[@class='button secondary radius']"));
-		logOutBtn.click();
+		Assert.assertTrue(logOutBtn.isDisplayed(), "Logout button is not visible");
+		
 		
 //			c. login success message.
-		
+		WebElement successMessage = driver.findElement(By.cssSelector("#flash"));
+		String expectedMessage = "You logged into a secure area!";
+		String actualMessage = successMessage.getText();
+		Assert.assertTrue(actualMessage.contains(expectedMessage), "Actual success message does not match to the expected message");
 		
 		
 		
